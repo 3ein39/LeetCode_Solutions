@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define ll          long long
+#define lp(n)       for(ll i = 0; i < (n); ++i)
+#define lp1(n)      for(ll i = 1; i <= (n); ++i)
+#define tc          ll testcase;   cin>>testcase;   while(testcase--)
+#define all(v)      (v).begin(), (v).end()
+#define allr(v)     (v).rbegin(), (v).rend()
+//#define fi          first
+//#define se          second
+#define pb          push_back
+#define yes         cout<<"YES"<<endl
+#define no          cout<<"NO"<<endl
+#define improve     ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+#define Node        ListNode
+int dx[4]{-1, 0, 1, 0};
+int dy[4]{0, 1, 0, -1};
+
+/* 3ein39
+                    " وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَى ﴿39﴾ وَأَنَّ سَعْيَهُ سَوْفَ يُرَى ﴿40﴾ ثُمَّ يُجْزَاهُ الْجَزَاء الْأَوْفَى "
+                                      My way to My dream....
+*/
+
+void hussein() {
+#ifndef ONLINE_JUDGE
+    freopen("in.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+#endif
+}
+
+
+
+class Solution {
+    int i = 0;
+    map<int, int> inorder_map;
+public:
+    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
+        for (int i = 0; i < inorder.size(); ++i) {
+            inorder_map[inorder[i]] = i;
+        }
+
+        return arrayToTree(preorder, 0, preorder.size() - 1);
+    }
+
+    TreeNode *arrayToTree(vector<int> &preorder, int left, int right) {
+                if (left > right) return nullptr;
+
+        TreeNode *root = new TreeNode(preorder[i++]);
+
+        root->left = arrayToTree(preorder, left, inorder_map[root->val] - 1);
+
+        root->right = arrayToTree(preorder, inorder_map[root->val] + 1, right);
+        
+        return root;
+    }
+};
+
+// int main() {
+//     hussein();
+
+
+//     return 0;
+// }
