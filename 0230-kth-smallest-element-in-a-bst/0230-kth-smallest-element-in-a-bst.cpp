@@ -23,27 +23,33 @@ int dy[4]{0, 1, 0, -1};
                                       My way to My dream....
 */
 
+
+
 class Solution {
     vector<int> v;
 public:
-    void helper(TreeNode *cur) {
-        if (!cur)
-            return;
+    int helper(TreeNode *cur, int &k) {
+    
 
-        if (cur->left)
-            helper(cur->left);
+        if (cur->left) {
+            int val = helper(cur->left, k);
+            if (!k)
+                return val;
+        }
+        if (--k == 0)
+            return cur->val;
 
-        v.pb(cur->val);
+        if (cur->right) {
+            int val = helper(cur->right, k);
+            if (!k)
+                return val;
+        }
 
-        if (cur->right)
-            helper(cur->right);
-
+        return -1;
     }
 
     int kthSmallest(TreeNode *root, int k) {
-        helper(root);
-
-        return v[k - 1];
+        return helper(root, k);
     }
 };
 
