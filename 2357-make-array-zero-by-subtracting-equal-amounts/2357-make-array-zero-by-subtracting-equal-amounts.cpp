@@ -24,31 +24,28 @@ int dy[4]{0, 1, 0, -1};
 */
 class Solution {
 public:
-    int get_min(vector<int>& v, int n) {
-        for (auto & el: v) {
-            if (el > 0)
-                return el;
-        }
-        
-        return -1;
-    }
-    
+    // priority queue
     int minimumOperations(vector<int> &nums) {
-        int n = nums.size();
+        priority_queue<int, vector<int>, greater<int>> mn_heap;
 
-        sort(all(nums));
-        ll ans {0};
-        while (true) {
-            int mn = get_min(nums, n);
-            
-            if (mn == -1) return ans;
-            
-            for (auto& el : nums) {
-                if (el > 0)
-                    el -= mn;
+        for (auto &el: nums)
+            mn_heap.push(el);
+
+        int cur_min = 0;
+
+        int ans = 0;
+        while (!mn_heap.empty()) {
+            if (mn_heap.top() == 0) mn_heap.pop();
+            else {
+                int top = mn_heap.top() - cur_min;
+                if (top != 0) {
+                    cur_min += top;
+                    ++ans;
+                }
+                mn_heap.pop();
             }
-            ++ans;
         }
+
         return ans;
     }
 };
