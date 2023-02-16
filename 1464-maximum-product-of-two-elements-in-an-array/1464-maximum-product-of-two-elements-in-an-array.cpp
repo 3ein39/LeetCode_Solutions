@@ -26,10 +26,20 @@ int dy[4]{0, 1, 0, -1};
 
 class Solution {
 public:
-    // using sorting -Greedy-
+    // using max heap
     int maxProduct(vector<int> &nums) {
-        sort(all(nums), greater<int>());
+        priority_queue<int> mx_heap;
 
-        return (nums[0] - 1) * (nums[1] - 1);
+        for (auto& el: nums) {
+            mx_heap.push(el);
+        }
+        
+        int mx1 = mx_heap.top();
+        mx_heap.pop();
+        
+        int mx2 = mx_heap.top();
+        mx_heap.pop();
+        
+        return (mx1 - 1) * (mx2 - 1);
     }
 };
