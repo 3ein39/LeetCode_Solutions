@@ -8,8 +8,8 @@ using namespace std;
 #define tc          ll testcase;   cin>>testcase;   while(testcase--)
 #define all(v)      (v).begin(), (v).end()
 #define allr(v)     (v).rbegin(), (v).rend()
-#define fi          first
-#define se          second
+//#define fi          first
+//#define se          second
 #define pb          push_back
 #define yes         cout<<"YES"<<endl
 #define no          cout<<"NO"<<endl
@@ -31,41 +31,27 @@ void hussein() {
     freopen("out.txt", "w", stdout);
 #endif
 }
-
-const int MAX = 2500 + 1;
-ll memory[MAX][MAX];
-
 class Solution {
 public:
-    int dp(vector<int>& nums, int idx, int last_idx = -1) {
-        if (idx == nums.size())
-            return 0;
-        else {
-           ll &ret = memory[idx][last_idx + 1];
-            if (ret != -1)
-                return ret;
-
-            int leave = dp(nums, idx + 1, last_idx);
-            int pick = 0;
-
-
-            if (last_idx == -1 || nums[idx] > nums[last_idx])
-                pick = 1 + dp(nums, idx + 1, idx);
-
-            return ret = max(pick, leave);
-        }
-
-        return 0;
-    }
-
     int lengthOfLIS(vector<int>& nums) {
-        ::memset(memory, -1, sizeof memory);
-        return dp(nums, 0);
+        int n = nums.size();
+        vector<int> memory(n+1, 1);
+
+        for (int i = n - 1; i > -1; --i)
+            for (int j = i + 1; j < n; ++j)
+                if (nums[i] < nums[j])
+                    memory[i] = max(memory[i], 1 + memory[j]);
+
+        return *max_element(all(memory));
     }
 };
 // int main() {
 //     hussein();
 
+
+//     vector<int> v{10,9,2,5,3,7,101,18};
+//     Solution a;
+//     cout << a.lengthOfLIS(v);
 
 
 //     return 0;
