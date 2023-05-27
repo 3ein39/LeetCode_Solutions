@@ -55,7 +55,7 @@ public:
             return ret;
 
         if (s1[i] == s2[j])
-            return dp(i + 1, j + 1);
+            return ret = dp(i + 1, j + 1);
 
         int insert, delt, replace;
         insert = 1 + dp(i, j + 1);
