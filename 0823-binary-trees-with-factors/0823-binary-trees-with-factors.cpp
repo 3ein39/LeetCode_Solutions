@@ -1,73 +1,84 @@
-
-#include <iostream>
-#include <vector>
-#include <cstring>
-#include <climits>
-#include <cassert>
-#include <unordered_set>
-#include <unordered_map>
+#include <bits/stdc++.h>
 using namespace std;
+#define ll          long long
+#define lp(n)       for(ll i = 0; i < (n); ++i)
+#define lp1(n)      for(ll i = 1; i <= (n); ++i)
+#define tc          ll testcase;   cin>>testcase;   while(testcase--)
+#define all(v)      (v).begin(), (v).end()
+#define allr(v)     (v).rbegin(), (v).rend()
+#define pb          push_back
+#define watch(num)  cout<< #num <<": "<< num << "\n";
+#define yes         cout<<"YES"<<endl
+#define no          cout<<"NO"<<endl
+#define improve     ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
+int dx[4]{-1, 0, 1, 0};
+int dy[4]{0, 1, 0, -1};
+void hussien() {
+    improve;
+#ifndef ONLINE_JUDGE
+    freopen("in.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+#endif
+}
 
-/*
+template<typename T>
+istream &operator>>(istream &input, vector<T> &data) {
+    for (T &x: data)input >> x;
+    return input;
+}
 
- Let's define cnt_trees(x): Return how many trees that has x as a root
+template<typename T>
+ostream &operator<<(ostream &output, const vector<T> &data) {
+    for (const T &x: data)output << x << " ";
+    return output;
+}
 
- Then the answer is: the sum for all cnt_trees(x) for the input values
+/* 3ein39
+                    " وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَى ﴿39﴾ وَأَنَّ سَعْيَهُ سَوْفَ يُرَى ﴿40﴾ ثُمَّ يُجْزَاهُ الْجَزَاء الْأَوْفَى "
+                                      My way to My dream....
+*/
+ll n;
+unordered_set<ll> values;
+unordered_map<ll, ll> memo;
+ll MOD = 1e9 + 7;
+ll add(ll a, ll b) {
+    return (a% MOD + b% MOD)% MOD;
+}
 
- Assume we have number like 12
- we know 12 = 1 * 12 = 2 * 6 = 3 * 4
+ll dp(int root) {
+    if (memo.count(root))
+        return memo[root];
 
- If we know that there are say 10 ways for F(3) and 20 ways for F(4)
- then we have F(3) * F(4) ways to make 12
-
- So the key idea is
- Find all pairs a, b such that x = a * b
- then accumulate F(a) * F(b)
- */
-
-const int MOD = 1000000007;
-typedef long long ll;
-
-unordered_set<int> nums_set;
-unordered_map<int, ll> memory;	// we can save in int, but will need casting
-
-// Return how many trees that has x as a root
-ll cnt_trees(int x) {	// O(N^2) where N is input array size
-	if (memory.count(x))
-		return memory[x];
-
-	ll cnt = 1;	// use as a leaf
-
-	// Find all my divisors x = a * b, then F(a) * F(b) are possible solutions
-	for (auto i : nums_set)
-		if (x % i == 0 && nums_set.count(x / i)) {	// x = a * b
-			// Carefully handle overflows
-			auto sub_trees = (cnt_trees(i) * cnt_trees(x / i)) % MOD;
-			cnt += sub_trees;
-			cnt %= MOD;
-		}
-	return memory[x] = cnt;
+    memo[root] = 1;
+    for (auto x : values) {
+       if (values.count(root / x) && (root % x == 0))
+           memo[root] = add(memo[root] , dp(x)*dp(root / x));
+    }
+    return memo[root] % MOD;
 }
 
 class Solution {
 public:
-	int numFactoredBinaryTrees(const vector<int> &A) {
-		// leetcode share global variables between cases. you must clean
-		nums_set.clear();
-		memory.clear();
-		nums_set.insert(A.begin(), A.end());
+    int numFactoredBinaryTrees(vector<int>& arr) {
+        ll ans = 0;
+        memo.clear();
+		values.clear();
+        for (auto& el : arr)
+            values.insert(el);
 
-		ll sum = 0;
-		for (auto x : nums_set) {
-			sum += cnt_trees(x);
-			sum %= MOD;
-		}
-		return sum;
-	}
+        for (int i = 0; i < arr.size(); ++i) {
+            ans = add(ans, dp(arr[i]));
+        }
+        return ans % MOD;
+    }
 };
 
 // int main() {
-// 	cout<<Solution().numFactoredBinaryTrees({15,13,22,7,11});	// 5
+//     hussien();
 
-// 	return 0;
+//     Solution a;
+//     vector<int> vv = {15,13,22,7,11};
+//     cout << a.numFactoredBinaryTrees(vv);
+
+//     return 0;
 // }
