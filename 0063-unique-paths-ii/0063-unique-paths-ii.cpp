@@ -11,8 +11,11 @@ using namespace std;
 #define yes         cout<<"YES"<<endl
 #define no          cout<<"NO"<<endl
 #define improve     ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL)
-int dx[4]{-1, 0, 1, 0};
-int dy[4]{0, 1, 0, -1};
+int dx4[4]{-1, 0, 1, 0};
+int dy4[4]{0, 1, 0, -1};
+int dx8[8] = {-1, -1, 0, 1, 1, 1, 0, -1};
+int dy8[8] = {0, 1, 1, 1, 0, -1, -1, -1};
+
 void hussien() {
     improve;
 #ifndef ONLINE_JUDGE
@@ -37,38 +40,39 @@ ostream &operator<<(ostream &output, const vector<T> &data) {
                     " وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَى ﴿39﴾ وَأَنَّ سَعْيَهُ سَوْفَ يُرَى ﴿40﴾ ثُمَّ يُجْزَاهُ الْجَزَاء الْأَوْفَى "
                                       My way to My dream....
 */
+int memo[1001][1001];
+int n, m;
+vector<vector<int>> v;
+bool valid(int i, int j) {
+    if (i < 0 || j < 0 || i >= n || j >= m || v[i][j])
+        return false;
+    return true;
+}
+
+int dp(int i, int j) {
+    if (!valid(i, j))
+        return 0;
+
+    if (i == n - 1 && j == m - 1)
+        return 1;
+
+    auto& ret = memo[i][j];
+    if (ret != -1)
+        return ret;
+
+    ret = 0;
+    ret += dp(i + 1, j);
+    ret += dp(i, j + 1);
+    
+    return ret;
+}
 
 class Solution {
-    int n, m;
-    vector<vector<int>> v;
-    ll memo[201][201];
 public:
-    ll dp(int i, int j) {
-        if (i == n - 1 && j == m - 1 && !v[i][j])
-            return 1;
-        if (i >= n || j >= m || v[i][j] == 1)
-            return 0;
-        
-        auto& ret = memo[i][j];
-        if (~ret)
-            return ret;
-        
-        ret = 0;
-        return ret += dp(i + 1, j) + dp(i,j + 1);
-    }
-
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
         n = obstacleGrid.size(), m = obstacleGrid[0].size();
         v = obstacleGrid;
-        ::memset(memo, -1, sizeof memo);
+        memset(memo, -1, sizeof memo);
         return dp(0,0);
     }
 };
-
-// int main() {
-//     hussien();
-
-
-
-//     return 0;
-// }
