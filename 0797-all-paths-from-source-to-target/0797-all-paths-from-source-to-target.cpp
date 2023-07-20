@@ -33,40 +33,39 @@ void hussein() {
     freopen("out.txt", "w", stdout);
 #endif
 }
-
 class Solution {
+    vector<vector<int>> graph;
+    int n;
+    vector<int> path;
+    vector<vector<int>> paths;
 public:
-    vector<vector<int>> ans;
-vector<vector<int>> g;
-int n;
-vector<int> path;
-    void solve(int node) {
-        if (node == n - 1){
-            ans.push_back(path);
+    void dfs(int node) {
+        if (node == n - 1) {
+            paths.push_back(path);
             return;
         }
+            
 
-        for (auto& ne : g[node]) {
-            path.pb(ne);
-            solve(ne);
+        for (auto& ne : graph[node]) {
+            path.push_back(ne);
+            dfs(ne);
             path.pop_back();
         }
-
     }
 
-    vector<vector<int>> allPathsSourceTarget(const vector<vector<int>>& graph) {
-        g = graph;
-        n = g.size();
-        path.pb(0);
-        solve(0);
-        return ans;
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph_) {
+        graph = graph_;
+        n = graph.size();
+
+        path.push_back(0);
+        dfs(0);
+        return paths;
     }
 };
 
 // int main() {
 //      hussein();
 
-//     Solution().allPathsSourceTarget({{0,1,3},{0,2,3},{0,0,4},{0,0,3,4},{0,0,1,3,4},{0,0,1,2,3,4},{0,0,1,4}});
 
 //      return 0;
 //  }
