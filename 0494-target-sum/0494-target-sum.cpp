@@ -35,32 +35,30 @@ void hussein() {
 }
 
 class Solution {
-    int memo[21][2001]; // idx, sum
     vector<int> v;
     int target;
     int n;
+    int ans = 0;
 public:
 
-    int dp(int idx, int sum) {
+    void backtrack(int idx, int sum) {
         if (idx == n) {
-            return sum == target;
+            if (sum == target) {
+                ++ans;
+            }
+            return;
         }
 
-        int &ret = memo[idx][sum + 1000];
-        if (~ret) return ret;
-
-        ret = 0;
-        ret += dp(idx + 1, sum + v[idx]);
-        ret += dp(idx + 1, sum - v[idx]);
-        return ret;
+        backtrack(idx + 1, sum + v[idx]);
+        backtrack(idx + 1, sum - v[idx]);
     }
 
     int findTargetSumWays(vector<int>& nums, int target_) {
         n = nums.size();
         v = nums;
         target = target_;
-        memset(memo, -1, sizeof memo);
-        return dp(0,0);
+        backtrack(0, 0);
+        return ans;
     }
 };
 
