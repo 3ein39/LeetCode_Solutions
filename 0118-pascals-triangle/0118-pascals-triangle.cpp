@@ -74,24 +74,22 @@ class Solution {
 public:
     int pascal(int n, int k) {
         if (k == 0 || k == n)return 1;
-        
+
         if (memo[n][k] != -1)return memo[n][k];
-        
+
         return memo[n][k] = pascal(n - 1, k - 1) + pascal(n - 1, k);
     }
     vector<vector<int>> generate(int numRows) {
         memset(memo, -1, sizeof(memo));
         vector<vector<int>> ans;
-        for (int i = 0; i < numRows; ++i) {
+        for (int i = numRows - 1; i >= 0; --i){
             vector<int> row;
             for (int j = 0; j <= i; ++j) {
                 row.push_back(pascal(i, j));
             }
             ans.push_back(row);
         }
+        reverse(all(ans));
         return ans;
     }
 };
-
-
-
