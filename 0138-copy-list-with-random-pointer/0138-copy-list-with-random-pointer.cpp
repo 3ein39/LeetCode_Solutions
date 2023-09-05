@@ -63,41 +63,13 @@ class Solution {
     map<Node*, Node*> oldToNew;
 public:
     Node* copyRandomList(Node* head) {
-        Node* ans, *temp;
-        ans = temp = new Node(0);
-
-        while (head) {
-            if (vis.count(head))
-                temp->next = oldToNew[head];
-            else
-                temp->next = new Node(head->val);
-
-            vis[head] = true;
-            oldToNew[head] = temp->next;
-
-            if (head->random) {
-                if (vis.count(head->random))
-                    temp->next->random = oldToNew[head->random];
-                else
-                    temp->next->random = new Node(head->random->val);
-
-                vis[head->random] = true;
-                oldToNew[head->random] = temp->next->random;
-            }
-            
-            if (head->next) {
-                if (vis.count(head->next))
-                    temp->next->next = oldToNew[head->next];
-                else
-                    temp->next->next = new Node(head->next->val);
-                
-                vis[head->next] = true;
-                oldToNew[head->next] = temp->next->next;
-            }
-
-            head = head->next;
-            temp = temp->next;
-        }
-        return ans->next;
+        if(!head) return NULL;
+        if(vis[head]) return oldToNew[head];
+        vis[head] = true;
+        Node* newHead = new Node(head->val);
+        oldToNew[head] = newHead;
+        newHead->next = copyRandomList(head->next);
+        newHead->random = copyRandomList(head->random);
+        return newHead;
     }
 };
