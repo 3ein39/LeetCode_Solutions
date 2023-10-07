@@ -50,34 +50,17 @@ void hussein() {
 class Solution {
       vector<string> ans;
    public:
-    void solve(TreeNode* node, string& state) {
-	  bool is_leaf = true;
-
-	  if (node->left) {
-	    state += "->" + to_string(node->left->val);
-	    is_leaf = false;
-	    solve(node->left, state);
-
-	    while(state.back() != '-' || state[state.size() - 2] == '>') state.pop_back();
-	    state.pop_back();
-	  }
-
-      if (node->right) {
-	    state += "->" + to_string(node->right->val);
-	    is_leaf = false;
-	    solve(node->right, state);
-
-        while(state.back() != '-' || state[state.size() - 2] == '>') state.pop_back();
-	    state.pop_back();
-      }
-
-	  if (is_leaf)
-	    ans.push_back(state);
+    void solve(TreeNode* node, string state) {
+		if (!node->left && !node->right) ans.pb( state + to_string(node->val) );
+	    else {
+	      if (node->left) solve(node->left, state + to_string(node->val) + "->");
+		  if (node->right) solve(node->right, state + to_string(node->val) + "->");
+	    }
     }
 
     vector<string> binaryTreePaths(TreeNode* root) {
-		string state = to_string(root->val);
-	    solve(root, state);
+	    if (root)
+		  solve(root, "");
 	    return ans;
     }
 };
