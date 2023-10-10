@@ -42,12 +42,19 @@ class Solution {
    public:
     vector<int> targetIndices(vector<int>& nums, int target) {
 		sort(all(nums));
-	    vector<int> ans;
-	    for (int i = 0; i < nums.size(); ++i) {
-	      if (nums[i] == target)
-		    ans.pb(i);
-	    }
+	    // first and last target;
+	    auto first = lower_bound(all(nums), target) - nums.begin();
+	    if (first == nums.size() || nums[first] != target) first = -1;
 	    
+	    auto last = upper_bound(all(nums), target) - nums.begin() - 1;
+	    if (last < 0 || nums[last] != target) last = -1;
+	    
+	    if (last == -1 || first == -1)
+	       return {};
+	    vector<int> ans;
+	    for (int i = first; i <= last; ++i) {
+	       ans.pb(i);
+	    }
 	    return ans;
     }
 };
