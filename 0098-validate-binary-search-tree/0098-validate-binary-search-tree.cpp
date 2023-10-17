@@ -1,43 +1,39 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
-#define all(v)      (v).begin(), (v).end()
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+
+//   struct TreeNode {
+//       int val;
+//       TreeNode *left;
+//       TreeNode *right;
+//       TreeNode() : val(0), left(nullptr), right(nullptr) {}
+//       TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+//       TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+//   };
+
+#define ll long long
 
 class Solution {
-
-    void inorder(TreeNode *root) {
-
-        if (root->left)
-            inorder(root->left);
-
-        s.insert(root->val);
-        v.push_back(root->val);
-
-        if (root->right)
-            inorder(root->right);
-
-    }
-
 public:
-    vector<int> v;
-    set<int> s;
-    bool isValidBST(TreeNode *root) {
-        // inorder traversal sol
-        // check if array is sorted
+    bool solve(TreeNode* root, long long  min = -1e12, long long max = 1e12) {
         if (!root)
             return true;
+            
+        if (root->val < min || root->val > max)
+            return false;
+            
+        return solve(root->left, min, root->val - 1ll) && solve(root->right,root->val + 1ll , max);
+    }
 
-        inorder(root);
-        return is_sorted(all(v)) && (v.size() == s.size());
+    bool isValidBST(TreeNode* root) {
+        if (!root) 
+            return false;
+        
+        return solve(root); 
     }
 };
-
-
