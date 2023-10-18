@@ -5,14 +5,21 @@ using namespace std;
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        unordered_map<int, int> mp; // {num, freq}
-        for (auto& el : nums)
-            mp[el]++;
-        
-        for (auto&[key, val] : mp) {
-            if (val > nums.size() / 2)
-                return key;
-        }
-        return -1;
+      // O(1) space, voting algorithm
+      int major = nums[0];
+      int votes = 1;
+      
+      for (int i = 1; i < nums.size(); ++i) {
+          if (votes == 0) {
+              major = nums[i];
+              votes = 1;
+          }
+          else if (major == nums[i])
+            ++votes;
+          else
+            --votes;
+            
+      }
+      return major;
     }   
 };
