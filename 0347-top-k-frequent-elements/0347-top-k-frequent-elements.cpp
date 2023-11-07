@@ -9,25 +9,28 @@ using namespace std;
 class Solution {
 public:
 
-// TC : O(n*log(n))
+// TC : O(n)
+// space : O(n)
+
+// bucket sort approach
     vector<int> topKFrequent(vector<int>& nums, int k) {
         unordered_map<int, int> freq;
         for (auto& el : nums)  // O(n)
             freq[el]++;
         
-        vector<pair<int, int>> v;
+        vector<vector<int>> bucket(nums.size() + 1);
         for (auto&[key, val] : freq) {
-            v.push_back({key, val});
+            bucket[val].push_back(key);
         }
         
-        // O(n.logn)
-        sort(v.begin(), v.end(), [&](pair<int, int> &a,pair<int, int> &b) {
-          return a.second > b.second;  
-        });
-        
+        // loop from the highest freq -end of buckets- to get k maxs
         vector<int> ans;
-        for (int i = 0; i < k; ++i) {
-            ans.push_back(v[i].first);
+        for (int i = nums.size(); i >= 0; --i) {
+            if (ans.size() >= k) break;
+            
+            if (!bucket[i].empty()) {
+                ans.insert(ans.end(), bucket[i].begin(), bucket[i].end());
+            }
         }
         
         return ans;
