@@ -51,16 +51,23 @@ void hussein() {
 class Solution {
   public:
 	ListNode* reverseList(ListNode* head) {
-		if (!head || !head->next)
+		// iterative approach
+		ListNode* cur, * prev;
+
+		if (!head)
 			return head;
-		
-		auto newHead = reverseList(head->next);
-		
-		head->next->next = head;
-		head->next = nullptr;
-		
-		
-		return newHead;
+
+		cur = head;
+		prev = nullptr;
+
+		while (cur) {
+			ListNode* temp = cur->next;
+			cur->next = prev;
+			prev = cur;
+			cur = temp;
+		}
+
+		return prev;
 	}
 };
 
