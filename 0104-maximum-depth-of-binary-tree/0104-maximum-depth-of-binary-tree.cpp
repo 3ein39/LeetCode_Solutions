@@ -9,6 +9,10 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+// time  : O(n)
+// space : O(n)
+
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
