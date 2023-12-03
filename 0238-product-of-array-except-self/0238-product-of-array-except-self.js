@@ -3,10 +3,9 @@
  * @return {number[]}
  */
 var productExceptSelf = function(nums) {
-    let pref = [], suff = [];
     let n = nums.length;
-
-    pref[0] = 1, suff[n - 1] = 1;
+    
+    let pref = new Array(n).fill(1), suff = new Array(n).fill(1);
 
     for (let i = 1; i < n; i++) {
         pref[i] = pref[i - 1] * nums[i - 1];
@@ -20,6 +19,6 @@ var productExceptSelf = function(nums) {
     for (let i = 0; i < n; i++) {
         ans[i] = pref[i] * suff[i];
     }
-    
+
     return ans;
 };
