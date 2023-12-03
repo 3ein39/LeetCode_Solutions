@@ -15,7 +15,7 @@ var productExceptSelf = function(nums) {
         suff[i] = suff[i + 1] * nums[i + 1];
     }
 
-    let ans = [];
+    let ans = new Array(n);
     for (let i = 0; i < n; i++) {
         ans[i] = pref[i] * suff[i];
     }
