@@ -46,9 +46,21 @@ class Solution {
 		mat = board;
 		n = m = 9;
 
+		vector<vector<bool>> row(9, vector<bool>(9, false));
+		vector<vector<bool>> col(9, vector<bool>(9, false));
+
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < m; ++j) {
 				if (mat[i][j] == '.') continue;
+
+
+				int idx = mat[i][j] - '0' - 1;
+
+				if (row[i][idx] || col[j][idx])
+					return false;
+
+				row[i][idx] = true;
+				col[j][idx] = true;
 
 				if (i >= 0 && i <= 2 && j >= 0 && j <= 2)
 					squares[{i, j}] = 1;
@@ -70,7 +82,7 @@ class Solution {
 					squares[{i, j}] = 9;
 
 				// check validity
-				if (!validr(i) || !validc(j) || !valids(i, j))
+				if (!valids(i, j))
 					return false;
 			}
 		}
