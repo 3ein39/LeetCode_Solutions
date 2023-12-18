@@ -40,7 +40,6 @@ void hussein() {
 class Solution {
 		vector<vector<char>> mat;
 		int n ,m;
-		map<pair<int, int>, int> squares;
   public:
 	bool isValidSudoku(vector<vector<char>>& board) {
 		mat = board;
@@ -48,6 +47,7 @@ class Solution {
 
 		vector<vector<bool>> row(9, vector<bool>(9, false));
 		vector<vector<bool>> col(9, vector<bool>(9, false));
+		vector<vector<bool>> sq(9, vector<bool>(9, false));
 
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < m; ++j) {
@@ -55,84 +55,18 @@ class Solution {
 
 
 				int idx = mat[i][j] - '0' - 1;
+				int area = (i/3)*3 + (j/3);
 
-				if (row[i][idx] || col[j][idx])
+				if (row[i][idx] || col[j][idx] || sq[area][idx])
 					return false;
 
 				row[i][idx] = true;
 				col[j][idx] = true;
-
-				if (i >= 0 && i <= 2 && j >= 0 && j <= 2)
-					squares[{i, j}] = 1;
-				else if (i >= 0 && i <= 2 && j >= 3 && j <= 5)
-					squares[{i, j}] = 2;
-				else if (i >= 0 && i <= 2 && j >= 6 && j <= 8)
-					squares[{i, j}] = 3;
-				else if (i >= 3 && i <= 5 && j >= 0 && j <= 2)
-					squares[{i, j}] = 4;
-				else if (i >= 3 && i <= 5 && j >= 3 && j <= 5)
-					squares[{i, j}] = 5;
-				else if (i >= 3 && i <= 5 && j >= 6 && j <= 8)
-					squares[{i, j}] = 6;
-				else if (i >= 6 && i <= 8 && j >= 0 && j <= 2)
-					squares[{i, j}] = 7;
-				else if (i >= 6 && i <= 8 && j >= 3 && j <= 5)
-					squares[{i, j}] = 8;
-				else if (i >= 6 && i <= 8 && j >= 6 && j <= 8)
-					squares[{i, j}] = 9;
-
-				// check validity
-				if (!valids(i, j))
-					return false;
+				sq[area][idx] = true;
 			}
 		}
 
 		return true;
-	}
-	bool valids(int i, int j) {
-		int sqr = squares[{i, j}];
-		int cnt = 0;
-		set<char> st;
-
-		for (int k = 0; k < n; ++k) {
-			for (int l = 0; l < m; ++l) {
-				if (mat[k][l] == '.' || squares[{k, l}] != sqr) continue;
-
-				++cnt;
-				st.insert(mat[k][l]);
-			}
-		}
-
-
-		return cnt == st.size();
-	}
-
-	bool validr(int i) {
-		// must be a valid row, i.e no duplicate numbers
-		int cnt = 0;
-		set<char> st;
-		for (int j = 0; j < m; ++j) {
-			if (mat[i][j] == '.') continue;
-
-			++cnt;
-			st.insert(mat[i][j]);
-		}
-
-		return cnt == st.size();
-	}
-
-	bool validc(int j) {
-		// must be a valid row, i.e no duplicate numbers
-		int cnt = 0;
-		set<char> st;
-		for (int i = 0; i < m; ++i) {
-			if (mat[i][j] == '.') continue;
-
-			++cnt;
-			st.insert(mat[i][j]);
-		}
-
-		return cnt == st.size();
 	}
 };
 
