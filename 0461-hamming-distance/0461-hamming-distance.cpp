@@ -39,12 +39,6 @@ void hussein() {
 class Solution {
   public:
 	int hammingDistance(int x, int y) {
-		int ans = 0;
-		bitset<32> setx(x), sety(y);
-		for (int i = 0; i < 32; ++i) {
-			if (setx[i] != sety[i])
-				++ans;
-		}
-		return ans;
+		return __popcount((x ^ y));
 	}
 };
