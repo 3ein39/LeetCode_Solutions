@@ -2,16 +2,16 @@
 
 <p>Note that it is the <code>k<sup>th</sup></code> largest element in the sorted order, not the <code>k<sup>th</sup></code> distinct element.</p>
 
-<p>You must solve it in <code>O(n)</code> time complexity.</p>
+<p>Can you solve it without sorting?</p>
 
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
-<pre><strong>Input:</strong> nums = [3,2,1,5,6,4], k = 2
+<pre style="position: relative;"><strong>Input:</strong> nums = [3,2,1,5,6,4], k = 2
 <strong>Output:</strong> 5
-</pre><p><strong class="example">Example 2:</strong></p>
-<pre><strong>Input:</strong> nums = [3,2,3,1,2,4,5,5,6], k = 4
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre><p><strong class="example">Example 2:</strong></p>
+<pre style="position: relative;"><strong>Input:</strong> nums = [3,2,3,1,2,4,5,5,6], k = 4
 <strong>Output:</strong> 4
-</pre>
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
 <p>&nbsp;</p>
 <p><strong>Constraints:</strong></p>
 
